@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "151063704220",
+    "project_id": "login-screen-be221",
+    "storage_bucket": "login-screen-be221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151063704220:android:6dd2e557516de66b5f7359",
+        "android_client_info": {
+          "package_name": "com.example.login_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151063704220-or8g1let6gctvh77rhjogrnrttmc9vhe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmZARt9CIDJspscJylgW_wx7Fqa4iB9j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151063704220-or8g1let6gctvh77rhjogrnrttmc9vhe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
