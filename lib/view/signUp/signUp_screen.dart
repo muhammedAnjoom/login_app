@@ -175,14 +175,6 @@ class SignUpScreen extends StatelessWidget {
                                   height: 30,
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (ctx) => LoginScreen(),
-                                      ),
-                                    );
-                                  },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 25,

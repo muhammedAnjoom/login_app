@@ -8,9 +8,10 @@ import '../heading_text.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key, required this.email}) : super(key: key);
   final _passwordController = TextEditingController();
   bool _secureText = true;
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +70,8 @@ class LoginScreen extends StatelessWidget {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: const [
-                                        Text(
+                                      children:  [
+                                        const Text(
                                           "Anjoom",
                                           style: TextStyle(
                                             color: Colors.white,
@@ -78,12 +79,12 @@ class LoginScreen extends StatelessWidget {
                                             fontSize: 20,
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Text(
-                                          "anjoom@gmail.com",
-                                          style: TextStyle(
+                                          email,
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 16),
                                         )
