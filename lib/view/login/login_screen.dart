@@ -1,6 +1,9 @@
+
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login_app/view/main_page.dart';
 
 import '../back_button.dart';
 import '../background_screen.dart';
@@ -32,7 +35,9 @@ class LoginScreen extends StatelessWidget {
                       vertical: 20,
                       horizontal: 30,
                     ),
-                    child: MainHeading(title: "Log in",),
+                    child: MainHeading(
+                      title: "Log in",
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -70,7 +75,7 @@ class LoginScreen extends StatelessWidget {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children:  [
+                                      children: [
                                         const Text(
                                           "Anjoom",
                                           style: TextStyle(
@@ -136,6 +141,7 @@ class LoginScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 GestureDetector(
+                                  onTap: ()=>logIn(context),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 25,
@@ -186,6 +192,32 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
+  Future logIn(BuildContext context) async {
+    final String _email = email;
+    final String _password = _passwordController.text;
+
+    var userAuth = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _email,
+      password: _password,
+    );
+
+    // ignore: unnecessary_null_comparison
+    if (userAuth != null){
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (ctx) => MainPage(),
+        ),
+      );
+    }else{
+      print("not verfiled");
+      final snackBar = SnackBar(
+        content: Text("Not verfiled account.create account",style: TextStyle(color: Colors.white),),
+      );
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
 }
-
-

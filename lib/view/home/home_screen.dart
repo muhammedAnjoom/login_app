@@ -77,9 +77,9 @@ class HomeScreen extends StatelessWidget {
                                         hintText: "Email",
                                         filled: true,
                                         enabledBorder: UnderlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide.none
-                                        ),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide.none),
                                         fillColor: const Color.fromARGB(
                                             185, 241, 236, 236),
                                         focusedBorder: OutlineInputBorder(
@@ -92,12 +92,10 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      validator: (email) =>
-                                        email != null &&
-                                                !EmailValidator.validate(
-                                                    email)
-                                            ? "Enter a valid email"
-                                            : null,
+                                      validator: (email) => email != null &&
+                                              !EmailValidator.validate(email)
+                                          ? "Enter a valid email"
+                                          : null,
                                       textInputAction: TextInputAction.next,
                                     ),
                                     const SizedBox(
