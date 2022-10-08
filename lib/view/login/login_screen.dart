@@ -6,7 +6,9 @@ import 'package:login_app/view/main_page.dart';
 
 import '../back_button.dart';
 import '../background_screen.dart';
+import '../customSnackBar.dart';
 import '../heading_text.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -213,56 +215,20 @@ class LoginScreen extends StatelessWidget {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
-        var snackBar = SnackBar(
+        const snackBar = SnackBar(
           backgroundColor: Colors.transparent,
-          content: Stack(
-            children: [
-              Container(
-                height: 90,
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-
-                  children: [
-                    SizedBox(width: 48,),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Oh snap!",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
-                          ),
-                          Text(
-                            "this user does not exist,create new account.",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          content: CustomSnackBarContent(
+            backgroundColor: Colors.red,
+            message: "this user does not exist,create new account",
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else if (e.code == "wrong-password") {
         const snackBar = SnackBar(
-          content: Text(
-            "Wrong password provided for that user.",
-            style: TextStyle(color: Colors.red, fontSize: 20),
+          backgroundColor: Colors.transparent,
+          content: CustomSnackBarContent(
+            message: "Wrong password provided for that user.",
+            backgroundColor: Color.fromARGB(235, 255, 123, 0),
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -270,3 +236,5 @@ class LoginScreen extends StatelessWidget {
     }
   }
 }
+
+// "Wrong password provided for that user.",
