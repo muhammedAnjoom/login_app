@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,10 +14,12 @@ class LoginScreen extends StatelessWidget {
   final _passwordController = TextEditingController();
   bool _secureText = true;
   final String email;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
@@ -141,7 +142,9 @@ class LoginScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 GestureDetector(
-                                  onTap: ()=>logIn(context),
+                                  onTap: () {
+                                    logIn(_scaffoldKey.currentContext);
+                                  },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 25,
@@ -193,17 +196,14 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Future logIn(BuildContext context) async {
+  Future logIn(context) async {
     final String _email = email;
     final String _password = _passwordController.text;
-
-    var userAuth = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _email,
-      password: _password,
-    );
-
-    // ignore: unnecessary_null_comparison
-    if (userAuth != null){
+    try {
+      var userAuth = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _email,
+        password: _password,
+      );
       // ignore: use_build_context_synchronously
       Navigator.push(
         context,
@@ -211,13 +211,62 @@ class LoginScreen extends StatelessWidget {
           builder: (ctx) => MainPage(),
         ),
       );
-    }else{
-      print("not verfiled");
-      final snackBar = SnackBar(
-        content: Text("Not verfiled account.create account",style: TextStyle(color: Colors.white),),
-      );
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        var snackBar = SnackBar(
+          backgroundColor: Colors.transparent,
+          content: Stack(
+            children: [
+              Container(
+                height: 90,
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+
+                  children: [
+                    SizedBox(width: 48,),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "Oh snap!",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          Text(
+                            "this user does not exist,create new account.",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else if (e.code == "wrong-password") {
+        const snackBar = SnackBar(
+          content: Text(
+            "Wrong password provided for that user.",
+            style: TextStyle(color: Colors.red, fontSize: 20),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     }
   }
 }
