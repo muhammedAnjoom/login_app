@@ -1,7 +1,10 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login_app/auth/user_authentication.dart';
+import 'package:login_app/view/login/login_card.dart';
 import 'package:login_app/view/main_page.dart';
 
 import '../back_button.dart';
@@ -11,11 +14,10 @@ import '../heading_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // ignore: must_be_immutable
+
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key, required this.email}) : super(key: key);
-  final _passwordController = TextEditingController();
-  bool _secureText = true;
   final String email;
+  LoginScreen({Key? key, required this.email}) : super(key: key);
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -42,152 +44,9 @@ class LoginScreen extends StatelessWidget {
                       title: "Log in",
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ClipRRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(
-                          sigmaX: 16,
-                          sigmaY: 16,
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          height: 300,
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 25,
-                              vertical: 20,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      radius: 35,
-                                      backgroundImage: NetworkImage(
-                                        'https://images.unsplash.com/photo-1615358630075-ba2bbe783521?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          "Anjoom",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          email,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: TextField(
-                                    controller: _passwordController,
-                                    decoration: InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 13,
-                                      ),
-                                      hintText: "password",
-                                      border: InputBorder.none,
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                            color: Color.fromARGB(
-                                                235, 255, 123, 0),
-                                            width: 3,
-                                          )),
-                                      suffixIcon: IconButton(
-                                        icon: const Icon(
-                                          Icons.visibility_off,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          _secureText = !_secureText;
-                                        },
-                                      ),
-                                    ),
-                                    textInputAction: TextInputAction.next,
-                                    obscuringCharacter: '●',
-                                    obscureText: true,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    logIn(_scaffoldKey.currentContext);
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 25,
-                                      vertical: 15,
-                                    ),
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          235, 255, 123, 0),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: const Center(
-                                        child: Text(
-                                      "Continue",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                GestureDetector(
-                                  child: const Text(
-                                    "Forgot your password?",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Color.fromARGB(235, 255, 123, 0)),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  LoginCard(
+                    email: email,
+                    scaffoldKey: _scaffoldKey.currentContext,
                   )
                 ],
               ),
@@ -197,44 +56,57 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-
-  Future logIn(context) async {
-    final String _email = email;
-    final String _password = _passwordController.text;
-    try {
-      var userAuth = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _email,
-        password: _password,
-      );
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (ctx) => MainPage(),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        const snackBar = SnackBar(
-          backgroundColor: Colors.transparent,
-          content: CustomSnackBarContent(
-            backgroundColor: Colors.red,
-            message: "this user does not exist,create new account",
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else if (e.code == "wrong-password") {
-        const snackBar = SnackBar(
-          backgroundColor: Colors.transparent,
-          content: CustomSnackBarContent(
-            message: "Wrong password provided for that user.",
-            backgroundColor: Color.fromARGB(235, 255, 123, 0),
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    }
-  }
 }
+
+
+// class LoginScreen extends StatefulWidget {
+//   LoginScreen({Key? key, required this.email}) : super(key: key);
+//   final String email;
+
+//   @override
+//   State<LoginScreen> createState() => _LoginScreenState();
+// }
+
+// class _LoginScreenState extends State<LoginScreen> {
+//   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       key: _scaffoldKey,
+//       resizeToAvoidBottomInset: false,
+//       body: SafeArea(
+//         child: Stack(
+//           children: [
+//             const BackgroundScreen(),
+//             const BackButtonWidget(),
+//             Padding(
+//               padding: const EdgeInsets.symmetric(vertical: 100),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   const Padding(
+//                     padding: EdgeInsets.symmetric(
+//                       vertical: 20,
+//                       horizontal: 30,
+//                     ),
+//                     child: MainHeading(
+//                       title: "Log in",
+//                     ),
+//                   ),
+//                   LoginCard(
+//                     widget: widget,
+//                   )
+//                 ],
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
 
 // "Wrong password provided for that user.",
