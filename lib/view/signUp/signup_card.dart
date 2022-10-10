@@ -5,12 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:login_app/auth/user_authentication.dart';
 import 'package:login_app/view/signUp/signup_bottom_text.dart';
 
-class SignUpCard extends StatelessWidget {
+class SignUpCard extends StatefulWidget {
   SignUpCard({
     super.key,
   });
+
+  @override
+  State<SignUpCard> createState() => _SignUpCardState();
+}
+
+class _SignUpCardState extends State<SignUpCard> {
   final _eamilController = TextEditingController();
+
   final _passwordControler = TextEditingController();
+  bool _secureText = true;
+
   final fromKey = GlobalKey<FormState>();
 
   @override
@@ -25,7 +34,7 @@ class SignUpCard extends StatelessWidget {
           ),
           child: Container(
             width: double.infinity,
-            height: 400,
+            height: 420,
             decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(10)),
@@ -56,20 +65,20 @@ class SignUpCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
                         controller: _eamilController,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
+                        decoration: const InputDecoration(
+                          contentPadding:  EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 13,
                           ),
                           hintText: "Email",
                           filled: true,
                           enabledBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide.none),
-                          fillColor: const Color.fromARGB(185, 241, 236, 236),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
+                          fillColor: Colors.white,
+                          focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide:  BorderSide(
                               color: Color.fromARGB(235, 255, 123, 0),
                               width: 3,
                             ),
@@ -97,7 +106,7 @@ class SignUpCard extends StatelessWidget {
                           ),
                           hintText: "password",
                           filled: true,
-                          fillColor: const Color.fromARGB(185, 241, 236, 236),
+                          fillColor: Colors.white,
                           enabledBorder: UnderlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none),
@@ -109,12 +118,16 @@ class SignUpCard extends StatelessWidget {
                             ),
                           ),
                           suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.visibility_off,
+                            icon:  Icon(
+                              _secureText == false
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              // _secureText = !_secureText;
+                              setState(() {
+                                _secureText = !_secureText;
+                              });
                             },
                           ),
                         ),
@@ -128,7 +141,7 @@ class SignUpCard extends StatelessWidget {
                           }
                         },
                         obscuringCharacter: '●',
-                        obscureText: true,
+                        obscureText: _secureText,
                       ),
                     ),
                     const SizedBox(

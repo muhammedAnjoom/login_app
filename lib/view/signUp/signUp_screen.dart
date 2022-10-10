@@ -23,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
             const BackgroundScreen(),
             const BackButtonWidget(),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 100),
+              padding: const EdgeInsets.only(top: 100),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
