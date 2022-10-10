@@ -177,8 +177,8 @@ class HomeScreen extends StatelessWidget {
                                       height: 30,
                                     ),
                                     Row(
-                                      children: const [
-                                        Text(
+                                      children: [
+                                        const Text(
                                           "Don't have an account? ",
                                           style: TextStyle(
                                             color: Colors.white,
@@ -186,14 +186,22 @@ class HomeScreen extends StatelessWidget {
                                             letterSpacing: 0.4,
                                           ),
                                         ),
-                                        Text(
-                                          "Sign up",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                235, 255, 123, 0),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            letterSpacing: 0.4,
+                                        GestureDetector(
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (ctx) => SignUpScreen(),
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            "Sign up",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  235, 255, 123, 0),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.4,
+                                            ),
                                           ),
                                         )
                                       ],
