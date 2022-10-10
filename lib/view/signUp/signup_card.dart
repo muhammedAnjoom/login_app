@@ -1,13 +1,14 @@
-
 import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:login_app/auth/user_authentication.dart';
+import 'package:login_app/view/signUp/signup_bottom_text.dart';
 
 class SignUpCard extends StatelessWidget {
-   SignUpCard({
+  SignUpCard({
     super.key,
-  }) ;
+  });
   final _eamilController = TextEditingController();
   final _passwordControler = TextEditingController();
   final fromKey = GlobalKey<FormState>();
@@ -35,8 +36,7 @@ class SignUpCard extends StatelessWidget {
               ),
               child: Form(
                 key: fromKey,
-                autovalidateMode:
-                    AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -53,38 +53,32 @@ class SignUpCard extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
                         controller: _eamilController,
                         decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 13,
                           ),
                           hintText: "Email",
                           filled: true,
                           enabledBorder: UnderlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none),
-                          fillColor: const Color.fromARGB(
-                              185, 241, 236, 236),
+                          fillColor: const Color.fromARGB(185, 241, 236, 236),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
-                              color: Color.fromARGB(
-                                  235, 255, 123, 0),
+                              color: Color.fromARGB(235, 255, 123, 0),
                               width: 3,
                             ),
                           ),
                         ),
-                        validator: (email) => email != null &&
-                                !EmailValidator.validate(email)
-                            ? "Enter a valid email"
-                            : null,
+                        validator: (email) =>
+                            email != null && !EmailValidator.validate(email)
+                                ? "Enter a valid email"
+                                : null,
                         textInputAction: TextInputAction.next,
                       ),
                     ),
@@ -93,30 +87,24 @@ class SignUpCard extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
                         controller: _passwordControler,
                         decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 13,
                           ),
                           hintText: "password",
                           filled: true,
-                            fillColor: const Color.fromARGB(
-                              185, 241, 236, 236),
+                          fillColor: const Color.fromARGB(185, 241, 236, 236),
                           enabledBorder: UnderlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
-                              color: Color.fromARGB(
-                                  235, 255, 123, 0),
+                              color: Color.fromARGB(235, 255, 123, 0),
                               width: 3,
                             ),
                           ),
@@ -158,33 +146,20 @@ class SignUpCard extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    Row(
-                      children: const [
-                        Text(
-                          "I agree to ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.4,
-                          ),
-                        ),
-                        Text(
-                          "Terms of Service and Privacy Policy",
-                          style: TextStyle(
-                            color:
-                                Color.fromARGB(235, 255, 123, 0),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.4,
-                          ),
-                        )
-                      ],
-                    ),
+                    const BottomTexts(),
                     const SizedBox(
                       height: 30,
                     ),
                     GestureDetector(
+                      onTap: () {
+                        final email = _eamilController.text.trim();
+                        final password = _passwordControler.text.trim();
+                        UserAuthentication().signUp(
+                          context,
+                          email,
+                          password,
+                        );
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 25,
@@ -192,8 +167,7 @@ class SignUpCard extends StatelessWidget {
                         ),
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(
-                              235, 255, 123, 0),
+                          color: const Color.fromARGB(235, 255, 123, 0),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Center(

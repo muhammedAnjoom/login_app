@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart'
-;
+import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../view/customSnackBar.dart';
 import '../view/main_page.dart';
-class UserAuthentication{
-    Future logIn(context ,String email,String password) async {
+
+class UserAuthentication {
+  Future logIn(context, String email, String password) async {
     final String _email = email;
     final String _password = password;
     try {
@@ -41,6 +41,23 @@ class UserAuthentication{
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
+    }
+  }
+
+  Future signUp(context,String email, String passowrd) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: passowrd,
+      );
+       Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (ctx) => MainPage(),
+        ),
+      );
+    } catch (e) {
+      print(e.toString());
     }
   }
 }
