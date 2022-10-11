@@ -19,11 +19,36 @@ class MainPage extends StatelessWidget {
               MaterialButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx)=> HomeScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (ctx) => HomeScreen()));
                 },
                 color: Colors.deepPurple,
                 child: const Text(
                   "sign out",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  try {
+                    var user = await FirebaseAuth.instance.currentUser;
+                  user!.delete().then(
+                        (value) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => HomeScreen(),
+                          ),
+                        ),
+                      );
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+                color: Colors.red,
+                child: const Text(
+                  "delete",
                   style: TextStyle(
                     color: Colors.white,
                   ),
