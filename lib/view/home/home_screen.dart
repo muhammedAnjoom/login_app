@@ -1,11 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:login_app/view/frogotPassword/froget_password.dart';
 import 'package:login_app/view/signUp/signUp_screen.dart';
 
-import '../back_button.dart';
-import '../background_screen.dart';
-import '../heading_text.dart';
+import '../widgets/back_button.dart';
+import '../widgets/background_screen.dart';
+import '../widgets/heading_text.dart';
 import '../login/login_screen.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -25,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             const BackgroundScreen(),
             const BackButtonWidget(),
             Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(top: 100, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -209,13 +210,22 @@ class HomeScreen extends StatelessWidget {
                                     const SizedBox(
                                       height: 30,
                                     ),
-                                    const Text(
-                                      "Frogot your password?",
-                                      style: TextStyle(
-                                        color: Color.fromARGB(235, 255, 123, 0),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.4,
+                                    GestureDetector(
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (ctx) => FrogotPassword(),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        "Frogot your password?",
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromARGB(235, 255, 123, 0),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.4,
+                                        ),
                                       ),
                                     )
                                   ],

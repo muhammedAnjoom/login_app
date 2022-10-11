@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:login_app/view/login/login_screen.dart';
 import 'package:login_app/view/signUp/signup_card.dart';
 
-import '../back_button.dart';
-import '../background_screen.dart';
-import '../heading_text.dart';
+import '../widgets/back_button.dart';
+import '../widgets/background_screen.dart';
+import '../widgets/heading_text.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);

@@ -7,10 +7,10 @@ import 'package:login_app/auth/user_authentication.dart';
 import 'package:login_app/view/login/login_card.dart';
 import 'package:login_app/view/main_page.dart';
 
-import '../back_button.dart';
-import '../background_screen.dart';
-import '../customSnackBar.dart';
-import '../heading_text.dart';
+import '../widgets/back_button.dart';
+import '../widgets/background_screen.dart';
+import '../widgets/customSnackBar.dart';
+import '../widgets/heading_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // ignore: must_be_immutable

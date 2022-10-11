@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../view/customSnackBar.dart';
+import '../view/widgets/customSnackBar.dart';
 import '../view/main_page.dart';
 
 class UserAuthentication {
@@ -44,13 +44,13 @@ class UserAuthentication {
     }
   }
 
-  Future signUp(context,String email, String passowrd) async {
+  Future signUp(context, String email, String passowrd) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: passowrd,
       );
-       Navigator.push(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (ctx) => MainPage(),
@@ -58,6 +58,30 @@ class UserAuthentication {
       );
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future frogotPassword(context, String email) async {
+    try {
+      print("user email $email");
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      const snackBar = SnackBar(
+        backgroundColor: Colors.transparent,
+        content: CustomSnackBarContent(
+          message: "password reset email sent",
+          backgroundColor: Color.fromARGB(235, 8, 151, 3),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      var snackBar = SnackBar(
+        backgroundColor: Colors.transparent,
+        content: CustomSnackBarContent(
+          message: e.toString(),
+          backgroundColor: const Color.fromARGB(235, 196, 21, 8),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }
