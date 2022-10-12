@@ -63,16 +63,20 @@ class UserAuthentication {
 
   Future frogotPassword(context, String email) async {
     try {
-      print("user email $email");
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      const snackBar = SnackBar(
-        backgroundColor: Colors.transparent,
-        content: CustomSnackBarContent(
-          message: "password reset email sent",
-          backgroundColor: Color.fromARGB(235, 8, 151, 3),
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      if (email != null) {
+        print("user email $email");
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+        const snackBar = SnackBar(
+          backgroundColor: Colors.transparent,
+          content: CustomSnackBarContent(
+            message: "password reset email sent",
+            backgroundColor: Color.fromARGB(235, 8, 151, 3),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }else{
+        print("email null");
+      }
     } on FirebaseAuthException catch (e) {
       var snackBar = SnackBar(
         backgroundColor: Colors.transparent,
