@@ -1,12 +1,14 @@
 import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/auth/user_authentication.dart';
 import 'package:login_app/view/home/home_screen.dart';
 
 import '../widgets/back_button.dart';
 import '../widgets/background_screen.dart';
+import '../widgets/customSnackBar.dart';
 import '../widgets/heading_text.dart';
 
 class FrogotPassword extends StatelessWidget {
@@ -113,11 +115,11 @@ class FrogotPassword extends StatelessWidget {
                                           height: 20,
                                         ),
                                         GestureDetector(
-                                          onTap: () {
+                                          onTap: () async{
                                             final email = _emailController.text.trim();
                                             print(email);
-                                            UserAuthentication()
-                                                .frogotPassword(context, email);
+                                            await frogotPassword(context);
+                                            // ignore: use_build_context_synchronously
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -162,5 +164,35 @@ class FrogotPassword extends StatelessWidget {
         ),
       ),
     );
+  }
+
+    Future frogotPassword(context) async {
+    try {
+      final email = _emailController.text.trim();
+      if (email != null) {
+        
+        print("user email $email");
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+        const snackBar = SnackBar(
+          backgroundColor: Colors.transparent,
+          content: CustomSnackBarContent(
+            message: "password reset email sent",
+            backgroundColor: Color.fromARGB(235, 8, 151, 3),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }else{
+        print("email null");
+      }
+    } on FirebaseAuthException catch (e) {
+      var snackBar = SnackBar(
+        backgroundColor: Colors.transparent,
+        content: CustomSnackBarContent(
+          message: e.toString(),
+          backgroundColor: const Color.fromARGB(235, 196, 21, 8),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }

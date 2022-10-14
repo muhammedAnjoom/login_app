@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:login_app/auth/user_authentication.dart';
 import 'package:login_app/view/frogotPassword/froget_password.dart';
+import 'package:login_app/view/main_page.dart';
 import 'package:login_app/view/signUp/signUp_screen.dart';
 
 import '../widgets/back_button.dart';
@@ -26,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             const BackgroundScreen(),
             const BackButtonWidget(),
             Padding(
-              padding: const EdgeInsets.only(top: 100, bottom: 20),
+              padding: const EdgeInsets.only(top: 100, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -161,10 +163,16 @@ class HomeScreen extends StatelessWidget {
                                     const SizedBox(
                                       height: 15,
                                     ),
-                                    const LoginPateformWidget(
-                                      name: "Google",
-                                      imagUrl:
-                                          "https://www.tramvietnam.com.au/wp-content/uploads/2021/07/Illustration-of-Google-icon-on-transparent-background-PNG.png",
+                                    GestureDetector(
+                                      onTap: () async{
+                                        print('click');
+                                        await UserAuthentication().signInWithGoogle(context);
+                                      },
+                                      child: const LoginPateformWidget(
+                                        name: "Google",
+                                        imagUrl:
+                                            "https://www.tramvietnam.com.au/wp-content/uploads/2021/07/Illustration-of-Google-icon-on-transparent-background-PNG.png",
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 15,

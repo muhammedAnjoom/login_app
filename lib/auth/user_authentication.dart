@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import '../view/widgets/customSnackBar.dart';
 import '../view/main_page.dart';
 
 class UserAuthentication {
+  final _googleSignIn = GoogleSignIn();
   Future logIn(context, String email, String password) async {
     final String _email = email;
     final String _password = password;
@@ -61,31 +62,27 @@ class UserAuthentication {
     }
   }
 
-  Future frogotPassword(context, String email) async {
+  Future signInWithGoogle(context) async {
     try {
-      if (email != null) {
-        print("user email $email");
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-        const snackBar = SnackBar(
-          backgroundColor: Colors.transparent,
-          content: CustomSnackBarContent(
-            message: "password reset email sent",
-            backgroundColor: Color.fromARGB(235, 8, 151, 3),
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+        final AuthCredential authCredential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken);
+        await FirebaseAuth.instance.signInWithCredential(authCredential);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => MainPage(),
           ),
         );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }else{
-        print("email null");
       }
     } on FirebaseAuthException catch (e) {
-      var snackBar = SnackBar(
-        backgroundColor: Colors.transparent,
-        content: CustomSnackBarContent(
-          message: e.toString(),
-          backgroundColor: const Color.fromARGB(235, 196, 21, 8),
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print(e.message);
+      throw e;
     }
   }
 }

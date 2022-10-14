@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/view/home/home_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class MainPage extends StatelessWidget {
               MaterialButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
+                  GoogleSignIn().signOut();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (ctx) => HomeScreen()));
                 },
