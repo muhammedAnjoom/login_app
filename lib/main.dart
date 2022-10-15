@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:login_app/auth/auth_page.dart';
 import 'package:login_app/view/home/home_screen.dart';
 import 'package:login_app/view/login/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.roboto().fontFamily,
         primarySwatch: Colors.blue,
       ),
-      home:  HomeScreen(),
+      home:  AuthPage(),
     );
   }
 }
