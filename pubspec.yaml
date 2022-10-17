@@ -35,6 +35,7 @@ dependencies:
   firebase_auth: ^3.11.2
   flutter:
     sdk: flutter
+  flutter_facebook_auth: ^4.4.1+1
   flutter_svg: ^1.1.5
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.2

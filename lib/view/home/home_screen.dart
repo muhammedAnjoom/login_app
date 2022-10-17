@@ -155,18 +155,26 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    const LoginPateformWidget(
-                                      name: "Facebook",
-                                      imagUrl:
-                                          "https://www.pngfind.com/pngs/m/616-6169174_sign-in-facebook-new-logo-2019-hd-png.png",
+                                    GestureDetector(
+                                      onTap: () async {
+                                        final email = await UserAuthentication()
+                                            .facebookLogin();
+                                        print(email);
+                                      },
+                                      child: const LoginPateformWidget(
+                                        name: "Facebook",
+                                        imagUrl:
+                                            "https://www.pngfind.com/pngs/m/616-6169174_sign-in-facebook-new-logo-2019-hd-png.png",
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 15,
                                     ),
                                     GestureDetector(
-                                      onTap: () async{
+                                      onTap: () async {
                                         print('click');
-                                        await UserAuthentication().signInWithGoogle(context);
+                                        await UserAuthentication()
+                                            .signInWithGoogle(context);
                                       },
                                       child: const LoginPateformWidget(
                                         name: "Google",

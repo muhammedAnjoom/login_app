@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../view/widgets/customSnackBar.dart';
 import '../view/main_page.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class UserAuthentication {
   final _googleSignIn = GoogleSignIn();
@@ -84,5 +85,16 @@ class UserAuthentication {
       print(e.message);
       throw e;
     }
+  }
+
+  Future facebookLogin() async {
+    String? email;
+    await FacebookAuth.instance
+        .login(permissions: ["public_profile", "email"]).then((value) {
+      FacebookAuth.instance.getUserData().then((value) async {
+        email = value["email"];
+      });
+    });
+    return email;
   }
 }
