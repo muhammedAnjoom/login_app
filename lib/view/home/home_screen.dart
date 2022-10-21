@@ -26,10 +26,11 @@ class HomeScreen extends StatelessWidget {
         child: Stack(
           children: [
             const BackgroundScreen(),
-            const BackButtonWidget(),
+            // const BackButtonWidget(),
             Padding(
-              padding: const EdgeInsets.only(top: 100, bottom: 10),
+              padding: const EdgeInsets.only(top: 100, bottom: 20),
               child: Column(
+                mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
@@ -66,185 +67,187 @@ class HomeScreen extends StatelessWidget {
                                 key: fromKey,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextFormField(
-                                      controller: _emailController,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 13,
-                                        ),
-                                        hintText: "Email",
-                                        filled: true,
-                                        enabledBorder: UnderlineInputBorder(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      TextFormField(
+                                        controller: _emailController,
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 13,
+                                          ),
+                                          hintText: "Email",
+                                          filled: true,
+                                          enabledBorder: UnderlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide.none),
+                                          fillColor: const Color.fromARGB(
+                                              185, 241, 236, 236),
+                                          focusedBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            borderSide: BorderSide.none),
-                                        fillColor: const Color.fromARGB(
-                                            185, 241, 236, 236),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: const BorderSide(
-                                            color: Color.fromARGB(
-                                                235, 255, 123, 0),
-                                            width: 3,
-                                          ),
-                                        ),
-                                      ),
-                                      validator: (email) => email != null &&
-                                              !EmailValidator.validate(email)
-                                          ? "Enter a valid email"
-                                          : null,
-                                      textInputAction: TextInputAction.next,
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        final email = _emailController.text;
-                                        final isValidFrom =
-                                            fromKey.currentState!.validate();
-                                        if (isValidFrom) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (ctx) => LoginScreen(
-                                                email: _emailController.text,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 25,
-                                          vertical: 15,
-                                        ),
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                              235, 255, 123, 0),
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                        child: const Center(
-                                            child: Text(
-                                          "Continue",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: Center(
-                                        child: Text(
-                                          "or",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        final email = await UserAuthentication()
-                                            .facebookLogin();
-                                        print(email);
-                                      },
-                                      child: const LoginPateformWidget(
-                                        name: "Facebook",
-                                        imagUrl:
-                                            "https://www.pngfind.com/pngs/m/616-6169174_sign-in-facebook-new-logo-2019-hd-png.png",
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        print('click');
-                                        await UserAuthentication()
-                                            .signInWithGoogle(context);
-                                      },
-                                      child: const LoginPateformWidget(
-                                        name: "Google",
-                                        imagUrl:
-                                            "https://www.tramvietnam.com.au/wp-content/uploads/2021/07/Illustration-of-Google-icon-on-transparent-background-PNG.png",
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    const LoginPateformWidget(
-                                      name: "Apple",
-                                      imagUrl:
-                                          "https://static.vecteezy.com/system/resources/previews/002/520/838/original/apple-logo-black-isolated-on-transparent-background-free-vector.jpg",
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          "Don't have an account? ",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            letterSpacing: 0.4,
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (ctx) => SignUpScreen(),
-                                            ),
-                                          ),
-                                          child: const Text(
-                                            "Sign up",
-                                            style: TextStyle(
+                                            borderSide: const BorderSide(
                                               color: Color.fromARGB(
                                                   235, 255, 123, 0),
-                                              fontSize: 18,
+                                              width: 3,
+                                            ),
+                                          ),
+                                        ),
+                                        validator: (email) => email != null &&
+                                                !EmailValidator.validate(email)
+                                            ? "Enter a valid email"
+                                            : null,
+                                        textInputAction: TextInputAction.next,
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          final email = _emailController.text;
+                                          final isValidFrom =
+                                              fromKey.currentState!.validate();
+                                          if (isValidFrom) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (ctx) => LoginScreen(
+                                                  email: _emailController.text,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 25,
+                                            vertical: 15,
+                                          ),
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: const Color.fromARGB(
+                                                235, 255, 123, 0),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: const Center(
+                                              child: Text(
+                                            "Continue",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
+                                            ),
+                                          )),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        child: Center(
+                                          child: Text(
+                                            "or",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          final email = await UserAuthentication()
+                                              .facebookLogin();
+                                          print(email);
+                                        },
+                                        child: const LoginPateformWidget(
+                                          name: "Facebook",
+                                          imagUrl:
+                                              "https://www.pngfind.com/pngs/m/616-6169174_sign-in-facebook-new-logo-2019-hd-png.png",
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          print('click');
+                                          await UserAuthentication()
+                                              .signInWithGoogle(context);
+                                        },
+                                        child: const LoginPateformWidget(
+                                          name: "Google",
+                                          imagUrl:
+                                              "https://www.tramvietnam.com.au/wp-content/uploads/2021/07/Illustration-of-Google-icon-on-transparent-background-PNG.png",
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      const LoginPateformWidget(
+                                        name: "Apple",
+                                        imagUrl:
+                                            "https://static.vecteezy.com/system/resources/previews/002/520/838/original/apple-logo-black-isolated-on-transparent-background-free-vector.jpg",
+                                      ),
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "Don't have an account? ",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
                                               letterSpacing: 0.4,
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (ctx) => FrogotPassword(),
-                                        ),
+                                          GestureDetector(
+                                            onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (ctx) => SignUpScreen(),
+                                              ),
+                                            ),
+                                            child: const Text(
+                                              "Sign up",
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    235, 255, 123, 0),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 0.4,
+                                              ),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      child: const Text(
-                                        "Frogot your password?",
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromARGB(235, 255, 123, 0),
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.4,
-                                        ),
+                                      const SizedBox(
+                                        height: 30,
                                       ),
-                                    )
-                                  ],
+                                      GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (ctx) => FrogotPassword(),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "Frogot your password?",
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromARGB(235, 255, 123, 0),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0.4,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
