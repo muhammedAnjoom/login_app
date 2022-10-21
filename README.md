@@ -16,8 +16,7 @@ I am happy to share with you my first login app useing firebase.
 
 https://user-images.githubusercontent.com/66232929/197094347-d41d5b3b-6fb8-4de9-9c24-d10b6cc00e0e.MP4
 
-## Android Application Package
-Install APK [Click](https://drive.google.com/file/d/1CUuQoBCU_TeazzU8UQqsUO34lYVp68mW/view?usp=sharing)
+
 
 ## Building
 
